@@ -1,7 +1,8 @@
 <h1 align="center">
   GlobalQuake
 </h1>
-
+> 此版本为修改版
+> 使用AI代码
 <!--<p align="center">
   <img src="" alt="GlobalQuake icon" title="GlobalQuake" />
 </p>-->
@@ -78,7 +79,7 @@ It's important to review and adhere to these additional licenses when using or d
 ![Philip Crotwell](https://images.weserv.nl/?url=avatars.githubusercontent.com/u/127367?v=4&h=20&w=20&fit=cover&mask=circle&maxage=7d) [Philip Crotwell](https://github.com/crotwell/) ([seisFile](http://crotwell.github.io/seisFile/), [TauP](http://crotwell.github.io/TauP/)) - Great and easy to use libraries. GlobalQuake wouldn't be possible without these\
 ![Yacine Boussoufa](https://images.weserv.nl/?url=avatars.githubusercontent.com/u/46266665?v=4&h=20&w=20&fit=cover&mask=circle&maxage=7d) [Yacine Boussoufa](https://github.com/YacineBoussoufa/) ([EarthquakeDataCenters](https://github.com/YacineBoussoufa/EarthquakeDataCenters)) - List of data providers for Seedlink and FDSNWS
 
-### Contributors
+###贡献者
 
 <a href="https://github.com/xspanger3770/GlobalQuake/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=xspanger3770/GlobalQuake" />
