@@ -75,10 +75,3 @@ This project is released under the terms of the MIT License.\
 The sound effects with the [`LICENSE_J`](https://github.com/xspanger3770/GlobalQuake/blob/main/LICENSE_J) designation are used under the terms of their specific license - [JQuake](https://jquake.net/), and the sound effects with the [`LICENSE_K`](https://github.com/xspanger3770/GlobalQuake/blob/main/LICENSE_K) designation are also subject to their own unique license - [KiwiMonitor](https://kiwimonitor.amebaownd.com/).\
 It's important to review and adhere to these additional licenses when using or distributing this project. Refer to the corresponding license files for more details.~~
 
-
-
-###贡献者
-
-<a href="https://github.com/xspanger3770/GlobalQuake/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=xspanger3770/GlobalQuake" />
-</a>
