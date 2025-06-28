@@ -75,11 +75,7 @@ This project is released under the terms of the MIT License.\
 The sound effects with the [`LICENSE_J`](https://github.com/xspanger3770/GlobalQuake/blob/main/LICENSE_J) designation are used under the terms of their specific license - [JQuake](https://jquake.net/), and the sound effects with the [`LICENSE_K`](https://github.com/xspanger3770/GlobalQuake/blob/main/LICENSE_K) designation are also subject to their own unique license - [KiwiMonitor](https://kiwimonitor.amebaownd.com/).\
 It's important to review and adhere to these additional licenses when using or distributing this project. Refer to the corresponding license files for more details.~~
 
-## Special thanks to
 
-![JQuake](https://images.weserv.nl/?url=avatars.githubusercontent.com/u/26931126?v=4&h=20&w=20&fit=cover&mask=circle&maxage=7d) [François Le Neindre](https://github.com/fleneindre) ([JQuake](https://jquake.net/en/)) - Inspiration for the layout, intensity scale, sound alarms and more\
-![Philip Crotwell](https://images.weserv.nl/?url=avatars.githubusercontent.com/u/127367?v=4&h=20&w=20&fit=cover&mask=circle&maxage=7d) [Philip Crotwell](https://github.com/crotwell/) ([seisFile](http://crotwell.github.io/seisFile/), [TauP](http://crotwell.github.io/TauP/)) - Great and easy to use libraries. GlobalQuake wouldn't be possible without these\
-![Yacine Boussoufa](https://images.weserv.nl/?url=avatars.githubusercontent.com/u/46266665?v=4&h=20&w=20&fit=cover&mask=circle&maxage=7d) [Yacine Boussoufa](https://github.com/YacineBoussoufa/) ([EarthquakeDataCenters](https://github.com/YacineBoussoufa/EarthquakeDataCenters)) - List of data providers for Seedlink and FDSNWS
 
 ###贡献者
 
