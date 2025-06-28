@@ -1,6 +1,7 @@
 > 此版本为修改版
 > 使用AI代码
 > 原作者：[xspanger3770](https://github.com/xspanger3770/GlobalQuake/)
+
 <h1 align="center">
   GlobalQuake
 </h1>
