@@ -52,7 +52,7 @@ public class DatabaseMonitorFrame extends GQFrame {
         contentPane.add(createTabbedPane(), BorderLayout.CENTER);
 
         pack();
-        setTitle("Station Database Manager");
+        setTitle("台站数据库管理器");
         setLocationRelativeTo(null);
 
         runTimer();
@@ -96,9 +96,9 @@ public class DatabaseMonitorFrame extends GQFrame {
 
     private Component createTabbedPane() {
         JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.addTab("Seedlink Networks", new SeedlinkServersPanel(
+        tabbedPane.addTab("Seedlink网络", new SeedlinkServersPanel(
                 this, manager,restoreDatabaseAction, getBtnSelectStations(), getBtnLaunch()));
-        tabbedPane.addTab("Station Sources", new StationSourcesPanel(
+        tabbedPane.addTab("台站源", new StationSourcesPanel(
                 this, manager, restoreDatabaseAction, getBtnSelectStations(), getBtnLaunch()));
         return tabbedPane;
     }
@@ -118,7 +118,7 @@ public class DatabaseMonitorFrame extends GQFrame {
         gridLayout.setHgap(5);
         buttonsPanel.setLayout(gridLayout);
 
-        btnSelectStations = new JButton("Select Stations");
+        btnSelectStations = new JButton("选择台站");
         btnSelectStations.setEnabled(false);
 
         ImageIcon selectStationsIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/image_icons/selectStations.png")));
@@ -134,7 +134,7 @@ public class DatabaseMonitorFrame extends GQFrame {
 
         buttonsPanel.add(btnSelectStations);
 
-        btnLaunch = new JButton("Launch %s".formatted(Main.fullName));
+        btnLaunch = new JButton("启动 %s".formatted(Main.fullName));
         btnLaunch.setEnabled(false);
 
         ImageIcon launchIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/image_icons/launchGlobalQuake.png")));

@@ -18,7 +18,7 @@ public class WaveformBuffer {
     private final boolean server;
     private int size;
     private long lastLog;
-    private int[] rawValues;
+    private double[] rawValues;
     private int[] times;
     private float[][] computed;
 
@@ -36,7 +36,7 @@ public class WaveformBuffer {
         }
 
         if(!isServer()) {
-            rawValues = new int[size];
+            rawValues = new double[size];
         }
 
         times = new int[size];
@@ -115,7 +115,7 @@ public class WaveformBuffer {
     private void _resize(int new_size) {
         boolean server = isServer();
         int[] new_times = new int[new_size];
-        int[] new_rawValues = server ? null : new int[new_size];
+        double[] new_rawValues = server ? null : new double[new_size];
         float[][] new_computed = new float[getComputedCount()][new_size];
 
         int i2 = 0;
@@ -132,6 +132,9 @@ public class WaveformBuffer {
 
             new_times[i2] = times[nextFreeSlot];
 
+            if(new_rawValues == null) {
+                new_rawValues = new double[times.length];
+            }
             if(!server){
                 new_rawValues[i2] = rawValues[nextFreeSlot];
             }
@@ -174,7 +177,7 @@ public class WaveformBuffer {
         return timeReference + times[index];
     }
 
-    public int getRaw(int index){
+    public double getRaw(int index){
         return rawValues[index];
     }
 
@@ -202,7 +205,7 @@ public class WaveformBuffer {
         }
         return new Log(
                 getTime(index),
-                isServer() ? 0 : rawValues[index],
+                isServer() ? 0 : (int) rawValues[index],
                 isServer() ? 0 : computed[FILTERED_VALUE][index],
                 computed[RATIO][index],
                 computed[MEDIUM_RATIO][index],
@@ -243,7 +246,7 @@ public class WaveformBuffer {
         while(closest != getNextSlot() && time <= end){
             result.log(
                     time,
-                    isServer() ? 0 : getRaw(closest),
+                    isServer() ? 0 : (int) getRaw(closest),
                     isServer() ? 0 : getComputed(FILTERED_VALUE, closest),
                     getComputed(RATIO, closest),
                     getComputed(MEDIUM_RATIO, closest),

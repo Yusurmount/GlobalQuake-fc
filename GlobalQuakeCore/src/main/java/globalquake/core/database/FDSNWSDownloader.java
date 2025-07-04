@@ -117,23 +117,21 @@ public class FDSNWSDownloader {
         DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
         f.setNamespaceAware(false);
         f.setValidating(false);
-        final CountInputStream in = new CountInputStream(inp);
+        try (CountInputStream in = new CountInputStream(inp)) {
+            in.setEvent(() ->  stationSource.getStatus().setString("Downloading %dkB".formatted(in.getCount() / 1024)));
+            String text = new String(in.readAllBytes(), StandardCharsets.UTF_8);
 
-        in.setEvent(() ->  stationSource.getStatus().setString("Downloading %dkB".formatted(in.getCount() / 1024)));
+            // some FDSNWS providers send empty document if no stations found by given parameters
+            if(text.isBlank()){
+                return;
+            }
 
-        String text = new String(in.readAllBytes(), StandardCharsets.UTF_8);
+            Document doc = f.newDocumentBuilder().parse(new InputSource(new StringReader(text)));
+            doc.getDocumentElement().normalize();
 
-        // some FDSNWS providers send empty document if no stations found by given parameters
-        if(text.isEmpty()){
-            return;
+            Element root = doc.getDocumentElement();
+            parseNetworks(result, stationSource, root);
         }
-
-        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(text)));
-
-        doc.getDocumentElement().normalize();
-
-        Element root = doc.getDocumentElement();
-        parseNetworks(result, stationSource, root);
     }
 
     private static void parseNetworks(List<Network> result, StationSource stationSource, Element root) {

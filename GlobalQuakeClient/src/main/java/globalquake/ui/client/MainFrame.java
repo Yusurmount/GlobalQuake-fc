@@ -16,10 +16,10 @@ import globalquake.playground.GlobalQuakePlayground;
 import globalquake.sounds.Sounds;
 import globalquake.ui.GQFrame;
 import globalquake.ui.database.DatabaseMonitorFrame;
-import globalquake.ui.settings.SettingsFrame;
 import globalquake.utils.Scale;
 
 import javax.swing.*;
+import globalquake.ui.settings.ClientSettingsFrame;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.concurrent.Executors;
@@ -75,16 +75,16 @@ public class MainFrame extends GQFrame {
     private static int phase = 0;
 
     private void initAll() throws Exception {
-        getProgressBar().setString("Loading regions...");
+        getProgressBar().setString("正在加载区域...");
         getProgressBar().setValue((int) ((phase++ / PHASES) * 100.0));
         Regions.init();
-        getProgressBar().setString("Loading scales...");
+        getProgressBar().setString("正在加载比例尺...");
         getProgressBar().setValue((int) ((phase++ / PHASES) * 100.0));
         Scale.load();
-        getProgressBar().setString("Loading shakemap...");
+        getProgressBar().setString("正在加载震动图...");
         getProgressBar().setValue((int) ((phase++ / PHASES) * 100.0));
         ShakeMap.init();
-        getProgressBar().setString("Loading sounds...");
+        getProgressBar().setString("正在加载声音...");
         getProgressBar().setValue((int) ((phase++ / PHASES) * 100.0));
         try {
             //Sound may fail to load for a variety of reasons. If it does, this method disables sound.
@@ -93,11 +93,11 @@ public class MainFrame extends GQFrame {
             RuntimeApplicationException error = new RuntimeApplicationException("Failed to load sounds. Sound will be disabled", e);
             Main.getErrorHandler().handleWarning(error);
         }
-        getProgressBar().setString("Loading travel table...");
+        getProgressBar().setString("正在加载走时表...");
         getProgressBar().setValue((int) ((phase++ / PHASES) * 100.0));
         TauPTravelTimeCalculator.init();
 
-        getProgressBar().setString("Trying to load CUDA library...");
+        getProgressBar().setString("尝试加载CUDA库...");
         getProgressBar().setValue((int) ((phase++ / PHASES) * 100.0));
         GQHypocs.load();
 
@@ -115,7 +115,7 @@ public class MainFrame extends GQFrame {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 32));
         panel.add(titleLabel);
 
-        hostButton = new JButton("Run Locally");
+        hostButton = new JButton("本地运行");
         hostButton.setEnabled(loaded);
         panel.add(hostButton);
 
@@ -128,7 +128,7 @@ public class MainFrame extends GQFrame {
             }
         });
 
-        connectButton = new JButton("Connect to Server");
+        connectButton = new JButton("连接服务器");
         connectButton.setEnabled(loaded);
         panel.add(connectButton);
 
@@ -137,7 +137,7 @@ public class MainFrame extends GQFrame {
             new ServerSelectionFrame().setVisible(true);
         });
 
-        playgroundButton = new JButton("Playground Mode (beta)");
+        playgroundButton = new JButton("演示模式 (测试版)");
         playgroundButton.setEnabled(loaded);
         panel.add(playgroundButton);
 
@@ -158,14 +158,14 @@ public class MainFrame extends GQFrame {
         grid2.setHgap(10);
         JPanel buttons2 = new JPanel(grid2);
 
-        settingsButton = new JButton("Settings");
+        settingsButton = new JButton("设置");
         settingsButton.setEnabled(false);
         // Listener for settings panel button
         settingsButton.addActionListener(actionEvent -> {
             // Check if an instance of SettingsFrame already exists
-            if (SettingsFrame.getInstance() == null) {
+            if (ClientSettingsFrame.getInstance() == null) {
                 // If not, create a new instance and make it visible
-                SettingsFrame settingsFrame = new SettingsFrame(MainFrame.this, false);
+                ClientSettingsFrame settingsFrame = new ClientSettingsFrame(MainFrame.this, false);
                 settingsFrame.setVisible(true);
                 // Ensure that the SettingsFrame is always on top
                 settingsFrame.setAlwaysOnTop(true);
@@ -174,7 +174,7 @@ public class MainFrame extends GQFrame {
 
         buttons2.add(settingsButton);
 
-        JButton exitButton = new JButton("Exit");
+        JButton exitButton = new JButton("退出");
         exitButton.addActionListener(actionEvent -> System.exit(0));
         buttons2.add(exitButton);
         return buttons2;

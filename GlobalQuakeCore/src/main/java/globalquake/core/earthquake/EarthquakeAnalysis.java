@@ -516,17 +516,7 @@ public class EarthquakeAnalysis {
             return;
         }
 
-        // There has to be at least some difference in the picked pWave times
-        if (CHECK_DELTA_P && !checkDeltaP(cluster, bestHypocenter, correctSelectedEvents)) {
-            Logger.tag("Hypocs").debug("Not Enough Delta-P");
 
-            if (cluster.getEarthquake() != null) {
-                updateMagnitudeOnly(cluster, bestHypocenter);
-                Logger.tag("Hypocs").debug("Performed magnitude-only revision anyway");
-            }
-
-            return;
-        }
 
 
         if (!checkUncertainty(bestHypocenter, correctSelectedEvents)) {
@@ -995,11 +985,6 @@ public class EarthquakeAnalysis {
             return HypocenterCondition.NOT_ENOUGH_CORRECT_STATIONS;
         }
 
-        if (CHECK_QUADRANTS) {
-            if (checkQuadrants(bestHypocenter, events) < 2.0) {
-                return HypocenterCondition.TOO_SHALLOW_ANGLE;
-            }
-        }
 
         if (previousHypocenter != null) {
             if (bestHypocenter.quality.getSummary().ordinal() > previousHypocenter.quality.getSummary().ordinal()) {
@@ -1025,22 +1010,6 @@ public class EarthquakeAnalysis {
         return new PreliminaryHypocenter(previousHypocenter.lat, previousHypocenter.lon, previousHypocenter.depth, previousHypocenter.origin, previousHypocenter.totalErr, previousHypocenter.correctEvents);
     }
 
-    private double checkQuadrants(Hypocenter hyp, List<PickedEvent> events) {
-        int[] qua = new int[QUADRANTS];
-        double good = 0;
-        for (PickedEvent event : events) {
-            double angle = GeoUtils.calculateAngle(hyp.lat, hyp.lon, event.lat(), event.lon());
-            int q = (int) ((angle * QUADRANTS) / 360.0);
-            if (qua[q] == 0) {
-                good += 0.5;
-            }
-            if (qua[q] == 1) {
-                good += 0.5;
-            }
-            qua[q]++;
-        }
-        return good;
-    }
 
     private void calculateMagnitude(Cluster cluster, Hypocenter hypocenterLocation, Hypocenter hypocenterAssign) {
         hypocenterAssign.magnitude = NO_MAGNITUDE;

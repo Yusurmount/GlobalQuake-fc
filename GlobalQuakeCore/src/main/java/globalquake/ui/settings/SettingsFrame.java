@@ -114,7 +114,7 @@ public class SettingsFrame extends GQFrame {
 	}
 
 
-	private void addPanels() {
+	protected void addPanels() {
 		panels.add(new GeneralSettingsPanel(this));
 		panels.add(new GraphicsSettingsPanel());
 		panels.add(new AlertSettingsPanel());
@@ -136,9 +136,22 @@ public class SettingsFrame extends GQFrame {
 		}
 	}
 
+	protected void addPanel(SettingsPanel panel) {
+		panels.add(panel);
+	}
+
 	public void refreshUI() {
 		for (SettingsPanel panel : panels) {
 			panel.refreshUI();
+		}
+	}
+
+	public void selectTab(String title) {
+		for (int i = 0; i < tabbedPane.getTabCount(); i++) {
+			if (tabbedPane.getTitleAt(i).equals(title)) {
+				tabbedPane.setSelectedIndex(i);
+				break;
+			}
 		}
 	}
 }

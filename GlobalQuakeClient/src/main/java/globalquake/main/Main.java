@@ -45,7 +45,7 @@ public class Main {
             System.exit(1);
         }
 
-        if(cmd.hasOption(maxGpuMemOption.getOpt())) {
+        if(cmd != null && cmd.hasOption(maxGpuMemOption.getOpt())) {
             try {
                 double maxMem =  Double.parseDouble(cmd.getOptionValue(maxGpuMemOption.getOpt()));
                 if(maxMem <= 0){

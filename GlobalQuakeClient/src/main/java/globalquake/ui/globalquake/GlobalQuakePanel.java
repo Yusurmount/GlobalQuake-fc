@@ -139,7 +139,7 @@ public class GlobalQuakePanel extends GlobePanel {
         if (clickedStations.size() == 1) {
             selectedStation = clickedStations.get(0);
         } else {
-            selectedStation = (AbstractStation) JOptionPane.showInputDialog(this, "Select station to open:", "Station selection",
+            selectedStation = (AbstractStation) JOptionPane.showInputDialog(this, "选择要打开的台站:", "台站选择",
                     JOptionPane.PLAIN_MESSAGE, null, clickedStations.toArray(), clickedStations.get(0));
         }
 
@@ -262,7 +262,7 @@ public class GlobalQuakePanel extends GlobePanel {
             g.setColor(Color.yellow);
             g.drawString(levelStr, getWidth() - levelW - 6, y);
 
-            String str = "Possibly felt by: ";
+            String str = "可能有感人数: ";
             g.setColor(Color.white);
             g.drawString(str, getWidth() - g.getFontMetrics().stringWidth(str) - levelW - 8, y);
             y += cellHeight;
@@ -276,7 +276,7 @@ public class GlobalQuakePanel extends GlobePanel {
             g.setColor(Color.orange);
             g.drawString(levelStr, getWidth() - levelW - 6, y);
 
-            String str = "Possibly heavily felt by: ";
+            String str = "可能强烈有感人数: ";
             g.setColor(Color.white);
             g.drawString(str, getWidth() - g.getFontMetrics().stringWidth(str) - levelW - 8, y);
         }

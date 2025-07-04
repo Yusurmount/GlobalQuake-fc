@@ -172,8 +172,8 @@ public class FeatureGlobalStation extends RenderFeature<AbstractStation> {
 
                     if(point3D == null) {
                         point3D = GlobeRenderer.createVec3D(getCenterCoords(entity));
-                        centerPoint = renderer.projectPoint(point3D, renderProperties);
                     }
+                    centerPoint = renderer.projectPoint(point3D, renderProperties);
 
                     int _y = (int) centerPoint.y + 4;
                     _y += 16;

@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 public class OpenURLAction extends AbstractAction {
 
@@ -32,7 +31,7 @@ public class OpenURLAction extends AbstractAction {
 
     public void openWebpage() {
         try {
-            openWebpage(new URL(url).toURI());
+            openWebpage(URI.create(url).toURL().toURI());
         } catch (URISyntaxException | MalformedURLException e) {
             Logger.error(e);
         }

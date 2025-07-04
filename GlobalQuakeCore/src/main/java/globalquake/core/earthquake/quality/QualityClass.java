@@ -1,9 +1,9 @@
 package globalquake.core.earthquake.quality;
 
 import java.awt.*;
-import java.io.Serializable;
+// 移除未使用的导入语句 java.io.Serializable
 
-public enum QualityClass implements Serializable {
+public enum QualityClass {
 
     S(new Color(0, 90, 192)),
     A(new Color(0,255, 0)),

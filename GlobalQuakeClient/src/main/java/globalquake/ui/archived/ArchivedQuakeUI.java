@@ -16,13 +16,13 @@ public class ArchivedQuakeUI extends JDialog {
         super(parent);
         setLayout(new BorderLayout());
 
-        JLabel latLabel = new JLabel("Latitude: %.4f".formatted(quake.getLat()));
-        JLabel lonLabel = new JLabel("Longitude: %.4f".formatted(quake.getLon()));
-        JLabel depthLabel = new JLabel("Depth: %s".formatted(Settings.getSelectedDistanceUnit().format(quake.getDepth(), 1)));
-        JLabel originLabel = new JLabel("Origin Time: %s".formatted(Settings.formatDateTime(Instant.ofEpochMilli(quake.getOrigin()))));
-        JLabel magLabel = new JLabel("Magnitude: %.2f".formatted(quake.getMag()));
-        JLabel maxRatioLabel = new JLabel("Max Ratio: %.1f".formatted(quake.getMaxRatio()));
-        JLabel regionLabel = new JLabel("Region: %s".formatted(quake.getRegion()));
+        JLabel latLabel = new JLabel("纬度: %.4f".formatted(quake.getLat()));
+        JLabel lonLabel = new JLabel("经度: %.4f".formatted(quake.getLon()));
+        JLabel depthLabel = new JLabel("深度: %s".formatted(Settings.getSelectedDistanceUnit().format(quake.getDepth(), 1)));
+        JLabel originLabel = new JLabel("发震时刻: %s".formatted(Settings.formatDateTime(Instant.ofEpochMilli(quake.getOrigin()))));
+        JLabel magLabel = new JLabel("震级: %.2f".formatted(quake.getMag()));
+        JLabel maxRatioLabel = new JLabel("最大比率: %.1f".formatted(quake.getMaxRatio()));
+        JLabel regionLabel = new JLabel("区域: %s".formatted(quake.getRegion()));
 
         // Create a panel to hold the labels
         JPanel panel = new JPanel();
@@ -37,7 +37,7 @@ public class ArchivedQuakeUI extends JDialog {
         panel.add(regionLabel);
 
 
-        JButton animButton = new JButton("Animation");
+        JButton animButton = new JButton("动画");
 
         animButton.addActionListener(new AbstractAction() {
             @Override

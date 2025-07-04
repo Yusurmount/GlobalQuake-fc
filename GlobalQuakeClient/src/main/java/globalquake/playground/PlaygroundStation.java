@@ -55,4 +55,8 @@ public class PlaygroundStation extends AbstractStation {
     public long getDelay() {
         return generator.getDelay();
     }
+
+    public StationWaveformGenerator getGenerator() {
+        return generator;
+    }
 }

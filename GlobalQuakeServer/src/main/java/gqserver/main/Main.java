@@ -81,7 +81,7 @@ public class Main {
             System.exit(1);
         }
 
-        headless = cmd.hasOption(headlessOption.getOpt());
+        headless = cmd != null && cmd.hasOption(headlessOption.getOpt());
 
         if(cmd.hasOption(maxClientsOption.getOpt())) {
             try {

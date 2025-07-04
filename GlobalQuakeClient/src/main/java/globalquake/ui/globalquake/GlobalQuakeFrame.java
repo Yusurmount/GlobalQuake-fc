@@ -5,7 +5,7 @@ import globalquake.main.Main;
 import globalquake.ui.GQFrame;
 import globalquake.ui.action.OpenURLAction;
 import globalquake.core.Settings;
-import globalquake.ui.settings.SettingsFrame;
+import globalquake.ui.settings.ClientSettingsFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -112,19 +112,23 @@ public class GlobalQuakeFrame extends GQFrame {
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.lightGray);
 
-		JMenu menuOptions = new JMenu("Options");
+		JMenu menuOptions = new JMenu("选项");
 
-		JMenuItem settings = new JMenuItem("Settings");
+		JMenuItem settings = new JMenuItem("设置");
 		settings.addActionListener(new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
 				 // Check if an instance of SettingsFrame already exists
-				 if (SettingsFrame.getInstance() == null) {
+				 if (ClientSettingsFrame.getInstance() == null) {
 					// If not, create a new instance and make it visible
-					SettingsFrame settingsFrame = new SettingsFrame(GlobalQuakeFrame.this, GlobalQuake.getInstance().limitedSettings());
+					ClientSettingsFrame settingsFrame = new ClientSettingsFrame(GlobalQuakeFrame.this, GlobalQuake.getInstance().limitedSettings());
 					settingsFrame.setVisible(true);
 					// Ensure that the SettingsFrame is always on top
 					settingsFrame.setAlwaysOnTop(true);
+					// Select Playground tab in playground mode
+					if (GlobalQuake.getInstance() instanceof globalquake.playground.GlobalQuakePlayground) {
+						settingsFrame.selectTab("Playground");
+					}
 				}
 			}
 		});
@@ -133,12 +137,12 @@ public class GlobalQuakeFrame extends GQFrame {
 
 		menuBar.add(menuOptions);
 
-		JMenu aboutMenu = new JMenu("Links");
+		JMenu aboutMenu = new JMenu("链接");
 
-		aboutMenu.add(new OpenURLAction("https://github.com/xspanger3770/GlobalQuake/", "Open GitHub webpage"));
-		aboutMenu.add(new OpenURLAction("https://github.com/xspanger3770/GlobalQuake/issues/", "Report issue or request new feature"));
-		aboutMenu.add(new OpenURLAction("https://github.com/xspanger3770/GlobalQuake/releases/", "Check for latest version"));
-		aboutMenu.add(new OpenURLAction("https://www.buymeacoffee.com/jakubspangl/", "Donate"));
+		aboutMenu.add(new OpenURLAction("https://github.com/xspanger3770/GlobalQuake/", "打开GitHub网页"));
+		aboutMenu.add(new OpenURLAction("https://github.com/xspanger3770/GlobalQuake/issues/", "报告问题或请求新功能"));
+		aboutMenu.add(new OpenURLAction("https://github.com/xspanger3770/GlobalQuake/releases/", "检查最新版本"));
+		aboutMenu.add(new OpenURLAction("https://www.buymeacoffee.com/jakubspangl/", "捐赠"));
 
 		menuBar.add(aboutMenu);
 

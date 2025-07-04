@@ -26,6 +26,7 @@ import java.awt.event.WindowEvent;
 public class GlobalQuakePlayground extends GlobalQuakeLocal {
 
     public long createdAtMillis;
+    private long timeOffset = 0;
     private final long playgroundStartMillis = LocalDate.of(2000, 1, 1)
             .atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
 
@@ -86,7 +87,23 @@ public class GlobalQuakePlayground extends GlobalQuakeLocal {
 
     @Override
     public long currentTimeMillis() {
-        return playgroundStartMillis + (System.currentTimeMillis() - createdAtMillis);
+        return playgroundStartMillis + (System.currentTimeMillis() - createdAtMillis) + timeOffset;
+    }
+
+    public void setTimeOffset(long offset) {
+        this.timeOffset = offset;
+    }
+
+    public long getTimeOffset() {
+        return timeOffset;
+    }
+
+    public long getPlaygroundStartMillis() {
+        return playgroundStartMillis;
+    }
+
+    public long getCreatedAtMillis() {
+        return createdAtMillis;
     }
 
     @Override

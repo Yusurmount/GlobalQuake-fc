@@ -59,9 +59,10 @@ public class GlobalQuakeLab {
         if(file.isDirectory()){
             return;
         }
-        ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
         ArchivedQuake archivedQuake = (ArchivedQuake) in.readObject();
         inspectArchivedQuake(archivedQuake);
+    }
     }
 
     private static void inspectArchivedQuake(ArchivedQuake archivedQuake) {

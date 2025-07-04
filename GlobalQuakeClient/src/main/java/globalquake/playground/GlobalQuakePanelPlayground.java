@@ -9,6 +9,8 @@ import globalquake.core.earthquake.interval.DepthConfidenceInterval;
 import globalquake.core.earthquake.interval.PolygonConfidenceInterval;
 import globalquake.core.events.specific.QuakeRemoveEvent;
 import globalquake.core.station.AbstractStation;
+import globalquake.core.station.GlobalStationManager;
+import globalquake.core.earthquake.EarthquakeAnalysis;
 import globalquake.ui.globalquake.GlobalQuakePanel;
 import gqserver.api.packets.station.InputType;
 
@@ -23,6 +25,7 @@ import java.util.List;
 public class GlobalQuakePanelPlayground extends GlobalQuakePanel {
 
     public static boolean displayPlaygroundQuakes = true;
+    private static final long TIME_STEP_MS = 5 * 1000; // 5 seconds in milliseconds
     private final JFrame parent;
 
     enum InsertType {
@@ -58,37 +61,54 @@ public class GlobalQuakePanelPlayground extends GlobalQuakePanel {
 
 
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                    ((GlobalQuakePlayground) GlobalQuake.instance).getPlaygroundEarthquakes().clear();
-                    for (Earthquake earthquake : GlobalQuake.instance.getEarthquakeAnalysis().getEarthquakes()) {
-                        GlobalQuake.instance.getEventHandler().fireEvent(new QuakeRemoveEvent(earthquake));
+                    GlobalQuake globalQuake = GlobalQuake.getInstance();
+                    if (globalQuake instanceof GlobalQuakePlayground) {
+                        GlobalQuakePlayground playground = (GlobalQuakePlayground) globalQuake;
+                        playground.getPlaygroundEarthquakes().clear();
+                        
+                        EarthquakeAnalysis analysis = globalQuake.getEarthquakeAnalysis();
+                        if (analysis != null) {
+                            for (Earthquake earthquake : analysis.getEarthquakes()) {
+                                globalQuake.getEventHandler().fireEvent(new QuakeRemoveEvent(earthquake));
+                            }
+                        }
+
+                        GlobalStationManager stationManager = globalQuake.getStationManager();
+                        if (stationManager != null) {
+                            for (AbstractStation station : stationManager.getStations()) {
+                                station.clear();
+                            }
+                            stationManager.getStations().clear();
+                        }
+
+                        globalQuake.clear();
                     }
-
-                    for (AbstractStation station : GlobalQuake.instance.getStationManager().getStations()) {
-                        station.clear();
-                    }
-
-                    GlobalQuake.instance.getStationManager().getStations().clear();
-
-                    GlobalQuake.instance.clear();
                 }
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    ((GlobalQuakePlayground) GlobalQuake.instance).createdAtMillis += 5 * 1000;
+                    GlobalQuake globalQuake = GlobalQuake.getInstance();
+                    if (globalQuake instanceof GlobalQuakePlayground) {
+                        ((GlobalQuakePlayground) globalQuake).createdAtMillis += TIME_STEP_MS;
+                    }
                 }
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    ((GlobalQuakePlayground) GlobalQuake.instance).createdAtMillis -= 5 * 1000;
+                    GlobalQuake globalQuake = GlobalQuake.getInstance();
+                    if (globalQuake instanceof GlobalQuakePlayground) {
+                        ((GlobalQuakePlayground) globalQuake).createdAtMillis -= TIME_STEP_MS;
+                    }
                 }
             }
         });
     }
 
-    private InsertType toggle(InsertType insertType) {
-        return this.insertType == insertType ? InsertType.NONE : insertType;
+    private InsertType toggle(InsertType type) {
+        return insertType == type ? InsertType.NONE : type;
     }
 
     private void insertSmth() {
         switch (insertType) {
             case EARTHQUAKE -> createDebugQuake();
             case RANDOM_STATIONS -> createRandomStations();
+            case NONE -> {}
         }
     }
 
@@ -99,18 +119,30 @@ public class GlobalQuakePanelPlayground extends GlobalQuakePanel {
         DecimalInput amount;
         inputs.add(amount = new DecimalInput("Amount", 10, 10000, 1000.0));
 
-        new DecimalInputDialog(parent, "Choose parameters", inputs, () -> (((GlobalStationManagerPlayground) GlobalQuake.instance.getStationManager())).generateRandomStations(
-                (int) amount.getValue(),
-                radius.getValue(),
-                getRenderer().getRenderProperties().centerLat,
-                getRenderer().getRenderProperties().centerLon));
+        new DecimalInputDialog(parent, "Choose parameters", inputs, () -> {
+            GlobalQuake globalQuake = GlobalQuake.getInstance();
+            if (globalQuake instanceof GlobalQuakePlayground) {
+                GlobalStationManager stationManager = globalQuake.getStationManager();
+                if (stationManager instanceof GlobalStationManagerPlayground) {
+                    ((GlobalStationManagerPlayground) stationManager).generateRandomStations(
+                            (int) amount.getValue(),
+                            radius.getValue(),
+                            getRenderer().getRenderProperties().centerLat,
+                            getRenderer().getRenderProperties().centerLon);
+                }
+            }
+        });
+
 
     }
 
     @Override
     protected void addRenderFeatures() {
         super.addRenderFeatures();
-        getRenderer().addFeature(new FeaturePlaygroundEarthquake(((GlobalQuakePlayground) GlobalQuake.instance).getPlaygroundEarthquakes()));
+        GlobalQuake globalQuake = GlobalQuake.getInstance();
+        if (globalQuake instanceof GlobalQuakePlayground) {
+            getRenderer().addFeature(new FeaturePlaygroundEarthquake(((GlobalQuakePlayground) globalQuake).getPlaygroundEarthquakes()));
+        }
     }
 
     private void createDebugQuake() {
@@ -124,6 +156,7 @@ public class GlobalQuakePanelPlayground extends GlobalQuakePanel {
     }
 
     public void _createDebugEarthquake(double magnitude, double depth, double lat, double lon) {
+        GlobalQuake globalQuake = GlobalQuake.getInstance();
         Earthquake quake;
         Cluster clus = new Cluster();
         clus.updateLevel(4);
@@ -131,7 +164,7 @@ public class GlobalQuakePanelPlayground extends GlobalQuakePanel {
         Hypocenter hyp = new Hypocenter(
                 lat, lon,
                 depth,
-                GlobalQuake.instance.currentTimeMillis(), 0, 10,
+                globalQuake.currentTimeMillis(), 0, 10,
                 new DepthConfidenceInterval(10, 100),
                 List.of(new PolygonConfidenceInterval(16, 0, List.of(
                         0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0), 1000, 10000)));
@@ -161,8 +194,10 @@ public class GlobalQuakePanelPlayground extends GlobalQuakePanel {
 
         hyp.mags = mags;
 
-        quake.setRegion("asdasdasd");
-        ((GlobalQuakePlayground) GlobalQuake.instance).getPlaygroundEarthquakes().add(quake);
+        quake.setRegion("Playground");
+        if (globalQuake instanceof GlobalQuakePlayground) {
+            ((GlobalQuakePlayground) globalQuake).getPlaygroundEarthquakes().add(quake);
+        }
     }
 
     @Override
@@ -204,7 +239,12 @@ public class GlobalQuakePanelPlayground extends GlobalQuakePanel {
             case RANDOM_STATIONS -> {
                 return "Press <space> to add random stations";
             }
+            case NONE -> {
+                return "";
+            }
+            default -> {
+                return "";
+            }
         }
-        return "";
     }
 }
